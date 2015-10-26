@@ -1,8 +1,11 @@
 package com.theironyard;
 
+import spark.ModelAndView;
 import spark.Spark;
+import spark.template.mustache.MustacheTemplateEngine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -24,8 +27,12 @@ public class Main {
         Spark.get(
                 "/accounts",
                 ((request, response) -> {
-                    return "Account page";
-                })
+                    HashMap m = new HashMap();
+                    m.put("count", users.size());
+                    m.put("accounts", users);
+                    return new ModelAndView(m, "accounts.html");
+                }),
+                new MustacheTemplateEngine()
         );
     }
 }
